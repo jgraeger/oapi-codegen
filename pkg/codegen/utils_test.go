@@ -280,6 +280,23 @@ func TestSwaggerUriToGorillaUri(t *testing.T) { // TODO
 	assert.Equal(t, "/path/{arg}/foo", SwaggerUriToGorillaUri("/path/{?arg*}/foo"))
 }
 
+func TestSwaggerUriToBunrouterUri(t *testing.T) {
+	assert.Equal(t, "/path", SwaggerUriToBunrouterUri("/path"))
+	assert.Equal(t, "/path/:arg", SwaggerUriToBunrouterUri("/path/{arg}"))
+	assert.Equal(t, "/path/:arg1/:arg2", SwaggerUriToBunrouterUri("/path/{arg1}/{arg2}"))
+	assert.Equal(t, "/path/:arg1/:arg2/foo", SwaggerUriToBunrouterUri("/path/{arg1}/{arg2}/foo"))
+
+	// Make sure all the exploded and alternate formats match too
+	assert.Equal(t, "/path/:arg/foo", SwaggerUriToBunrouterUri("/path/{arg}/foo"))
+	assert.Equal(t, "/path/:arg/foo", SwaggerUriToBunrouterUri("/path/{arg*}/foo"))
+	assert.Equal(t, "/path/:arg/foo", SwaggerUriToBunrouterUri("/path/{.arg}/foo"))
+	assert.Equal(t, "/path/:arg/foo", SwaggerUriToBunrouterUri("/path/{.arg*}/foo"))
+	assert.Equal(t, "/path/:arg/foo", SwaggerUriToBunrouterUri("/path/{;arg}/foo"))
+	assert.Equal(t, "/path/:arg/foo", SwaggerUriToBunrouterUri("/path/{;arg*}/foo"))
+	assert.Equal(t, "/path/:arg/foo", SwaggerUriToBunrouterUri("/path/{?arg}/foo"))
+	assert.Equal(t, "/path/:arg/foo", SwaggerUriToBunrouterUri("/path/{?arg*}/foo"))
+}
+
 func TestOrderedParamsFromUri(t *testing.T) {
 	result := OrderedParamsFromUri("/path/{param1}/{.param2}/{;param3*}/foo")
 	assert.EqualValues(t, []string{"param1", "param2", "param3"}, result)
@@ -433,7 +450,6 @@ func TestSchemaNameToTypeName(t *testing.T) {
 	}
 }
 
-
 func TestTypeDefinitionsEquivalent(t *testing.T) {
 	def1 := TypeDefinition{TypeName: "name", Schema: Schema{
 		OAPISchema: &openapi3.Schema{},
@@ -443,7 +459,6 @@ func TestTypeDefinitionsEquivalent(t *testing.T) {
 	}}
 	assert.True(t, TypeDefinitionsEquivalent(def1, def2))
 }
-
 
 func TestRefPathToObjName(t *testing.T) {
 	t.Parallel()

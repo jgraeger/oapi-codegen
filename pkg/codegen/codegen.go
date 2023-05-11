@@ -197,6 +197,14 @@ func Generate(spec *openapi3.T, opts Configuration) (string, error) {
 		}
 	}
 
+	var bunrouterServerOut string
+	if opts.Generate.BunrouterServer {
+		bunrouterServerOut, err = GenerateBunrouterServer(t, ops)
+		if err != nil {
+			return "", fmt.Errorf("error generating Go handlers for Paths: %w", err)
+		}
+	}
+
 	var strictServerOut string
 	if opts.Generate.Strict {
 		var responses []ResponseDefinition
@@ -299,6 +307,13 @@ func Generate(spec *openapi3.T, opts Configuration) (string, error) {
 
 	if opts.Generate.GorillaServer {
 		_, err = w.WriteString(gorillaServerOut)
+		if err != nil {
+			return "", fmt.Errorf("error writing server path handlers: %w", err)
+		}
+	}
+
+	if opts.Generate.BunrouterServer {
+		_, err = w.WriteString(bunrouterServerOut)
 		if err != nil {
 			return "", fmt.Errorf("error writing server path handlers: %w", err)
 		}

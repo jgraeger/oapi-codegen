@@ -287,6 +287,7 @@ var TemplateFunctions = template.FuncMap{
 	"swaggerUriToChiUri":         SwaggerUriToChiUri,
 	"swaggerUriToGinUri":         SwaggerUriToGinUri,
 	"swaggerUriToGorillaUri":     SwaggerUriToGorillaUri,
+	"swaggerUriToBunrouterUri":   SwaggerUriToBunrouterUri,
 	"lcFirst":                    LowercaseFirstCharacter,
 	"ucFirst":                    UppercaseFirstCharacter,
 	"ucFirstWithPkgName":         UppercaseFirstCharacterWithPkgName,

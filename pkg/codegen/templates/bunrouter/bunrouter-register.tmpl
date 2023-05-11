@@ -1,0 +1,12 @@
+// RegisterHandlers add each server route to a bunrouter
+func RegisterHandlers(router *bunrouter.Router, si ServerInterface) {
+    RegisterHandlersWithBaseURL(router, si, "")
+}
+
+func RegisterHandlersWithBaseURL(router *bunrouter.Router, si ServerInterface, baseURL string) {
+{{if .}}
+    wrapper := ServerInterfaceWrapper{Handler: si}
+{{end}}
+{{range .}}router.{{.Method}}(baseURL + "{{.Path | swaggerUriToBunrouterUri}}", wrapper.{{.OperationId}})
+{{end}}
+}

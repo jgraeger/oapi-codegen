@@ -479,6 +479,22 @@ func SwaggerUriToGorillaUri(uri string) string {
 	return pathParamRE.ReplaceAllString(uri, "{$1}")
 }
 
+// SwaggerUriToBunrouterUri converts a OpenAPI style path URI with parameters to an
+// Echo compatible path URI. We need to replace all of OpenAPI parameters with
+// ":param". Valid input parameters are:
+//
+//	{param}
+//	{param*}
+//	{.param}
+//	{.param*}
+//	{;param}
+//	{;param*}
+//	{?param}
+//	{?param*}
+func SwaggerUriToBunrouterUri(uri string) string {
+	return pathParamRE.ReplaceAllString(uri, ":$1")
+}
+
 // OrderedParamsFromUri returns the argument names, in order, in a given URI string, so for
 // /path/{param1}/{.param2*}/{?param3}, it would return param1, param2, param3
 func OrderedParamsFromUri(uri string) []string {

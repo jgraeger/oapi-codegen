@@ -931,6 +931,10 @@ func GenerateGorillaServer(t *template.Template, operations []OperationDefinitio
 	return GenerateTemplates([]string{"gorilla/gorilla-interface.tmpl", "gorilla/gorilla-middleware.tmpl", "gorilla/gorilla-register.tmpl"}, t, operations)
 }
 
+func GenerateBunrouterServer(t *template.Template, operations []OperationDefinition) (string, error) {
+	return GenerateTemplates([]string{"bunrouter/bunrouter-interface.tmpl", "bunrouter/bunrouter-wrappers.tmpl", "bunrouter/bunrouter-register.tmpl"}, t, operations)
+}
+
 func GenerateStrictServer(t *template.Template, operations []OperationDefinition, opts Configuration) (string, error) {
 	templates := []string{"strict/strict-interface.tmpl"}
 	if opts.Generate.ChiServer || opts.Generate.GorillaServer {
