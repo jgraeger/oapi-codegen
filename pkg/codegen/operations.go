@@ -946,6 +946,9 @@ func GenerateStrictServer(t *template.Template, operations []OperationDefinition
 	if opts.Generate.GinServer {
 		templates = append(templates, "strict/strict-gin.tmpl")
 	}
+	if opts.Generate.BunrouterServer {
+		templates = append(templates, "strict/strict-bunrouter.tmpl")
+	}
 	return GenerateTemplates(templates, t, operations)
 }
 
