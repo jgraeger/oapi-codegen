@@ -15,8 +15,10 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
+	"github.com/uptrace/bunrouter"
 
-	"github.com/deepmap/oapi-codegen/internal/test/strict-server/chi"
+	api5 "github.com/deepmap/oapi-codegen/internal/test/strict-server/bunrouter"
+	api "github.com/deepmap/oapi-codegen/internal/test/strict-server/chi"
 	api3 "github.com/deepmap/oapi-codegen/internal/test/strict-server/client"
 	api4 "github.com/deepmap/oapi-codegen/internal/test/strict-server/echo"
 	api2 "github.com/deepmap/oapi-codegen/internal/test/strict-server/gin"
@@ -46,6 +48,14 @@ func TestGinServer(t *testing.T) {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
 	api2.RegisterHandlers(r, strictHandler)
+	testImpl(t, r)
+}
+
+func TestBunrouterServer(t *testing.T) {
+	server := api5.StrictServer{}
+	strictHandler := api5.NewStrictHandler(server, nil)
+	r := bunrouter.New()
+	api5.RegisterHandlers(r, strictHandler)
 	testImpl(t, r)
 }
 
